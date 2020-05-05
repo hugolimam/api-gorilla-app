@@ -1,0 +1,10 @@
+export api_port=4020 \
+&& export api_version=1.0 \
+&& export show_api_doc=true \
+&& export db_mongo_host=172.23.0.2 \
+&& export db_mongo_user=root \
+&& export db_mongo_password=gorila_mongo_db \
+&& export db_mongo=gorila \
+&& export db_mongo_port=27017 \
+&& export jwt_secret=gorila-api__
+

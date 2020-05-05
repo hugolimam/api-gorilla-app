@@ -1,0 +1,43 @@
+version: "3.3"
+services:
+  gorila-mongo:
+    image: mongo
+    container_name: gorila-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: gorila_mongo_db
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"  
+    networks:
+      - prod
+  gorila-api:
+    container_name: gorila-api
+    image: 127.0.0.1:5000/gorila-api
+    build:
+      context: "./"
+      dockerfile: api.dockerfile
+    environment:
+      db_mongo_host: gorila-mongo
+      db_mongo_user: root
+      db_mongo_password: gorila_mongo_db
+      db_mongo: gorila
+      NODE_ENV: production
+      api_port: 4020
+      api_version: '1.0.0'
+      jwt_secret: "gorila-api__"
+      show_api_doc: "true"
+    expose:
+      - "4020"
+    ports:
+      - "4020:4020"
+    volumes:
+      - ./src:/opt/src/ #mountpoint to deploy with compose and code at the same time
+    networks:
+      - prod
+  
+networks:
+  prod:
+    external: true
